@@ -26,6 +26,8 @@ function addTodo(e) {
   saveLocalTodos(todoInput.value);
   //
   newTodo.classList.add("todo-item");
+  newTodo.style.color = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+  // console.log(`#${Math.floor(Math.random() * 16777215).toString(16)}`);
   todoDiv.appendChild(newTodo);
   todoInput.value = "";
   //Create Completed Button
@@ -123,6 +125,9 @@ function getTodos() {
     const newTodo = document.createElement("li");
     newTodo.innerText = todo;
     newTodo.classList.add("todo-item");
+    newTodo.style.color = `#${Math.floor(Math.random() * 16777215).toString(
+      16
+    )}`;
     todoDiv.appendChild(newTodo);
     todoInput.value = "";
     //Create Completed Button
