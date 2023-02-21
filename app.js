@@ -1,17 +1,31 @@
+const MAIN_URL = "https://dummyjson.com/todos";
+
 //Select DOM
 const todoInput = document.querySelector(".todo-input");
+const singleTodoInput = document.querySelector("#single-todo-input");
 const todoButton = document.querySelector(".todo-button");
+const singleTodoBtn = document.querySelector("#single-todo-btn");
 const todoList = document.querySelector(".todo-list");
 const filterOption = document.querySelector(".filter-todo");
 
 //Event Listeners
 document.addEventListener("DOMContentLoaded", getTodos);
 todoButton.addEventListener("click", addTodo);
+singleTodoBtn.addEventListener("click", showSingleTodo);
 todoList.addEventListener("click", deleteTodo);
 filterOption.addEventListener("click", filterTodo);
 
-//Functions
+function createNewTodo(todoTitle) {
+  let newTodo = {
+    id: Date.now(),
+    todo: todoTitle,
+    completed: false,
+    userId: Date.now(),
+  };
+  return newTodo;
+}
 
+//Functions
 function addTodo(e) {
   //Prevent natural behaviour
   e.preventDefault();
@@ -23,7 +37,7 @@ function addTodo(e) {
   newTodo.innerText = todoInput.value;
   //Save to local - do this last
   //Save to local
-  saveLocalTodos(todoInput.value);
+  saveLocalTodos(createNewTodo(todoInput.value));
   //
   newTodo.classList.add("todo-item");
   newTodo.style.color = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
@@ -109,15 +123,43 @@ function removeLocalTodos(todo) {
   todos.splice(todos.indexOf(todoIndex), 1);
   localStorage.setItem("todos", JSON.stringify(todos));
 }
+function showSingleTodo() {
+  let todos = fetchSingleTodo(Number(singleTodoInput.value));
+  console.log(todos);
+}
 
-function getTodos() {
+function checkLocalStorageReturnTodos() {
   let todos;
   if (localStorage.getItem("todos") === null) {
-    todos = [];
+    return (todos = []);
   } else {
-    todos = JSON.parse(localStorage.getItem("todos"));
+    return (todos = JSON.parse(localStorage.getItem("todos")));
   }
-  todos.forEach(function (todo) {
+}
+
+async function fetchTodos() {
+  let response = await fetch(MAIN_URL);
+  let dataObj = await response.json();
+  let todos = dataObj.todos;
+  return todos;
+}
+
+async function fetchSingleTodo(todoId = 1) {
+  let url = `${MAIN_URL}/${todoId}`;
+  let response = await fetchTodos(url);
+  let data = await response.json();
+  return data;
+}
+
+async function getTodos() {
+  let fetchedTodos = await fetchTodos();
+
+  console.log(fetchedTodos);
+  localStorage.setItem("todos", JSON.stringify(fetchedTodos));
+  let todos = checkLocalStorageReturnTodos();
+
+  todos.forEach(function (todoObj) {
+    const { todo, completed } = todoObj;
     //Create todo div
     const todoDiv = document.createElement("div");
     todoDiv.classList.add("todo");
