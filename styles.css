@@ -52,7 +52,6 @@ form button:hover {
   min-width: 30%;
   list-style: none;
   border-radius: var(--borderRadius);
-
 }
 
 .todo {
@@ -69,12 +68,18 @@ form button:hover {
 .filter-todo {
   padding: 1rem;
   border-radius: var(--borderRadius);
-
 }
 .todo li {
   flex: 1;
 }
-
+.section {
+  width: 32rem;
+  height: 5rem;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .trash-btn,
 .complete-btn {
   background: red;
@@ -84,7 +89,6 @@ form button:hover {
   cursor: pointer;
   font-size: 1rem;
   border-radius: var(--borderRadius);
-
 }
 .complete-btn {
   background: rgb(11, 212, 162);
@@ -134,7 +138,6 @@ select {
   cursor: pointer;
   width: 12rem;
   border-radius: var(--borderRadius);
-
 }
 /* Arrow */
 .select::after {
@@ -147,7 +150,6 @@ select {
   cursor: pointer;
   pointer-events: none;
   border-radius: var(--borderRadius);
-
 }
 /* Transition */
 /*
